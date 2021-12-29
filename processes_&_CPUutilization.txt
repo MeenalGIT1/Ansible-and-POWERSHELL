@@ -1,0 +1,43 @@
+Question1. The file should have
+1. Processes that have lowest handles.
+2. CPU Utilization whose is less than 100.
+3. Time stamp of the file when it's created.
+3. Upload as attahcment as a file.
+Ans.
+
+codinginput: $(get-process | sort-object handles | select -First 10 | Where-Object{$_.CPU -lt "100" })+$(Get-date).DateTime
+ | out-file "C:\Users\meenal.m\OneDrive - HCL Technologies Ltd\Desktop\m.txt" -force -append
+
+output:
+
+Tuesday, November 16, 2021 2:00:33 AM
+Tuesday, November 16, 2021 2:01:38 AM
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName                                                                                                                          
+-------  ------    -----      -----     ------     --  -- -----------                                                                                                                          
+      0       0       56          8                 0   0 Idle                                                                                                                                 
+      0      16      720     107532       9.38     88   0 Registry                                                                                                                             
+     49       6     1484       4016       0.05    812   1 fontdrvhost                                                                                                                          
+     49       6     1556       4088       0.06    820   0 fontdrvhost                                                                                                                          
+     49       7     2100       6172       0.22   3672   2 fontdrvhost                                                                                                                          
+     56       3      500        952       0.22    292   0 smss                                                                                                                                 
+     85       5      860       3504       0.02    772   0 svchost                                                                                                                              
+    109       7     1356       5796       0.02   3204   0 svchost                                                                                                                              
+    116       7     1220       5760       0.08   5772   0 svchost                                                                                                                              
+    124      17     3908       7548       1.72   1096   0 svchost                                                                                                                              
+Tuesday, November 16, 2021 2:04:17 AM
+
+Question2. . Send a mail attaching a file to "manasa6873@gmail.com","mohitsw2202@gmail.com"
+Ans.
+coding input:
+$From = "meenalmonga2717@outlook.com"
+$To = "manasa6873@gmail.com","mohitsw2202@gmail.com"
+$Cc = "meenalmonga2717@outlook.com"
+$Subject = "Task "
+$Body = "Test mail"
+$SMTPServer = "smtp.outlook.com"
+$SMTPPort = "587"
+Send-MailMessage -From $From -to $To -Cc $Cc -Subject $Subject -Body $Body -BodyAsHtml  -SmtpServer $SMTPServer -Port 
+ $SMTPPort -UseSsl -Credential (Get-Credential)
+
+
