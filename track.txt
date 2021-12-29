@@ -1,0 +1,5 @@
+---
+  - hosts: localhost
+    become: true
+    tasks:
+      - shell: awk -F_ '{ print $1","$2","$3}' < 3.txt >  3.csv

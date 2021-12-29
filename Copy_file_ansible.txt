@@ -1,0 +1,36 @@
+---
+  - name: copying the multiple file
+    become: true
+    copy:
+      src=/root/{{item}}
+      dest=/root/temp
+      mode=0777
+      owner=root
+      force=yes
+    with_items:
+      ['3.txt','4.txt','5.txt']
+  - name: copying the multiple files with multiple permissions
+    become: true
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: "{{ item.mode }}"
+      force: yes
+      owner: root
+    with_items:
+      - { src: '/root/3.txt',dest: '/root/temp/', mode: '0777'}
+      - { src: '/root/8.txt',dest: '/root/temp', mode: '0707'}
+      - { src: '/root/9.txt',dest: '/root', mode: '0575'}
+  - name: copying multiple files from multiple  directories using loops and variables
+    copy:
+      src: "{{ item }}"
+      dest: /root/
+      owner: root
+      mode: 0777
+      force: yes
+    loop: "{{ files }}"
+    vars:
+      files:
+        - "/root/meenal/"
+        - "/root/devops"
+  - name: printing the output

@@ -1,0 +1,22 @@
+#1. Created a Single user and added to the local group
+
+$password= Read-Host -AsSecureString
+New-LocalUser "Meenal_Monga" -Password $password -FullName "Meenal Monga" -Description "local-test"
+Get-LocalGroup
+New-LocalGroup Powershell
+Add-LocalGroupMember -group Powershell -Member "Meenal_Monga"
+net user 
+
+#2. Created a multiple users and added to the local group with no password
+
+ New-LocalUser -name "Pranjal" -Description "local-test" -NoPassword
+ New-LocalUser -name "Shivam" -Description "local-test" -NoPassword
+ New-LocalUser -name "suchita" -Description "local-test" -NoPassword
+ New-LocalUser -name "kaviya" -Description "local-test" -NoPassword
+ New-LocalUser -name "Pravin" -Description "local-test" -NoPassword
+ New-LocalUser -name "vinitha" -Description "local-test" -NoPassword
+ New-LocalUser -name "Soundrya" -Description "local-test" -NoPassword
+ Get-LocalGroup
+ New-LocalGroup Redhat
+ Add-LocalGroupMember -group Redhat -Member "Pranjal", "Shivam", "suchita", "kaviya", "Pravin", "vinitha", "Soundrya"
+ Get-LocalGroupMember -group Redhat 

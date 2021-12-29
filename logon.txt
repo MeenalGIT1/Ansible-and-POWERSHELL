@@ -1,0 +1,56 @@
+try{
+
+$ErrorActionPreference = 'SilentlyContinue'
+
+$hostname= read-host "enter the computername for which you want the users information"
+if ($hostname.length -eq 0)
+ {$hostname = $env:computername} 
+
+$startTmp = read-host "Enter the starting date from (MM/DD/YYYY, default 1/1/2000)"
+$startDate = get-date $startTmp 
+
+$endTmp = read-host "Enter the ending date from (MM/DD/YYYY, default 1/1/2000)"
+$endDate = get-date $endTmp 
+
+write-host "Hostname: "$hostname "`tStart: "$startDate "`tEnd: "$endDate
+
+write-host "enter the group name from the below list"
+$Group_names= Get-LocalGroup
+write-host $Group_names -format
+
+$gpname = read-host "enter the local group name" 
+foreach($i in $Group_names)  {
+if($gpname -match $i) 
+ { 
+  write-host "Enter the users name from the below list"
+ $gpmember=Get-LocalGroupMember -group $gpname
+ write-host $gpmember
+ $username= read-host "enter the users name for which you want"
+
+ $TargetFolderComputer = "C:\Users\Administrator.DEMO\Desktop\logonlogoff"
+ $TargetFolderDate = "C:\Users\Administrator.DEMO\Desktop\Date"
+ $TargetFolderUser = "C:\Users\Administrator.DEMO\Desktop\User"
+
+ $TargetFileComputer = $TargetFolderComputer + $hostname + ".txt"
+ $TargetFileDate = $TargetFolderDate + $startDate + ".txt"
+ $TargetFileUser = $TargetFolderUser + $username + ".txt"
+
+$obj = New-Object PSObject
+$obj | Add-Member -MemberType NoteProperty -Name "Date" -Value $startdate
+$obj | Add-Member -MemberType NoteProperty -Name "Computer" -Value $hostname
+$obj | Add-Member -MemberType NoteProperty -Name "User" -Value $username
+$obj | Add-Member -MemberType NoteProperty -Name "Action" -Value "Logon"
+
+$obj | Export-CSV -Force -NoTypeInformation -Append $TargetFileComputer
+$obj | Export-CSV -Force -NoTypeInformation -Append $TargetFileDate
+$obj | Export-CSV -Force -NoTypeInformation -Append $TargetFileUser
+
+write-host "We got the user logon information"
+ }
+ 
+}
+}
+Catch{
+write-host "The hostname is not valid"`n -ForegroundColor Blue
+write-host "Message: [$($_.Exception.Message)"] -ForegroundColor Red -BackgroundColor DarkBlue
+}

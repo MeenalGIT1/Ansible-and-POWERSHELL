@@ -1,0 +1,6 @@
+[root@ansible ~]# vi usingrole.yml
+---
+  - hosts: managednode1
+    become: true
+    roles:
+       - copyrole

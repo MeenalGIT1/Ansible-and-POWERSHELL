@@ -1,0 +1,10 @@
+#3. I have created a csv file and fetched the values from that file
+
+ new-localgroup Python
+ Get-LocalGroup
+ $USER= import-csv "C:\Users\Administrator.DEMO\Desktop\users.csv"
+ foreach($i in $USER) 
+ { #$iNew-LocalUser $i.Name -NoPassword  }
+ foreach($i in $USER)
+ {add-LocalGroupMember -Group "Python" -Member $i.Name } 
+ get-localgroupmember -Group Python 
